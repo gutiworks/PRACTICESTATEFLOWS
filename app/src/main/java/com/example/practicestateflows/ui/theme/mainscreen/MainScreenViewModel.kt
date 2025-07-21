@@ -39,21 +39,34 @@ class MainScreenViewModel(
     }
 
     private fun getPosts() {
-        viewModelScope.launch {
-            try {
-                _uiStatePost.update { PostUiState.Success(repository.getPosts()) }
-            } catch (e: Exception) {
-                _uiStatePost.update { PostUiState.Error("Error ${e.message}") }
-            }
-        }
+        fetchData(
+            _uiStatePost,
+            { PostUiState.Success(it) },
+            { repository.getPosts() },
+            { PostUiState.Error("Error test") }
+        )
     }
 
     private fun getTests() {
+        fetchData(
+            _uiStateTest,
+            { TestUiState.Success(it) },
+            { repository.getTests() },
+            { TestUiState.Error("Error test") }
+        )
+    }
+
+    private fun <UiState, Data> fetchData(
+        stateFlow: MutableStateFlow<UiState>,
+        onSuccess: (Data) -> UiState,
+        repositoryData: suspend () -> Data,
+        onError: (String) -> UiState
+    ){
         viewModelScope.launch {
             try {
-                _uiStateTest.update { TestUiState.Success(repository.getTests()) }
+                stateFlow.update { onSuccess(repositoryData()) }
             } catch (e: Exception) {
-                _uiStateTest.update { TestUiState.Error(e.message ?: "Unknown error") }
+                stateFlow.update { onError("Error: ${e.message}") }
             }
         }
     }
