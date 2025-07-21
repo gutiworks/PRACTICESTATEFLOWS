@@ -41,18 +41,18 @@ class MainScreenViewModel(
     private fun getPosts() {
         fetchData(
             _uiStatePost,
-            { PostUiState.Success(it) },
+            { data-> PostUiState.Success(data) },
             { repository.getPosts() },
-            { PostUiState.Error("Error test") }
+            { message -> PostUiState.Error(message) }
         )
     }
 
     private fun getTests() {
         fetchData(
             _uiStateTest,
-            { TestUiState.Success(it) },
+            { data -> TestUiState.Success(data) },
             { repository.getTests() },
-            { TestUiState.Error("Error test") }
+            { message -> TestUiState.Error(message) }
         )
     }
 
