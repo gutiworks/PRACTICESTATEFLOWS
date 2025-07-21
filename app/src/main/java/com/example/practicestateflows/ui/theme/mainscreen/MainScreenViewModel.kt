@@ -5,11 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.practicestateflows.data.ApiRepository
 import com.example.practicestateflows.model.Post
 import com.example.practicestateflows.model.Test
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 sealed class PostUiState {
     object Loading: PostUiState()
@@ -23,7 +25,8 @@ sealed class TestUiState {
     data class Error(val message: String): TestUiState()
 }
 
-class MainScreenViewModel(
+@HiltViewModel
+class MainScreenViewModel @Inject constructor(
     val repository: ApiRepository
 ): ViewModel() {
 
