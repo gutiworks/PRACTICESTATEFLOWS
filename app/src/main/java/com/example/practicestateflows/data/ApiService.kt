@@ -2,27 +2,30 @@ package com.example.practicestateflows.data
 
 import com.example.practicestateflows.model.Post
 import com.example.practicestateflows.model.Test
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
 import retrofit2.http.GET
-import javax.inject.Singleton
 
 interface ApiService {
     @GET("posts")
-    suspend fun getPosts(): List<Post> = listOf(Post("Post1"), Post("Post2"))
+    suspend fun getPosts(): List<Post>
 
     @GET("tests")
-    suspend fun getTests(): List<Test> = listOf(Test("Test1"), Test("Test2"))
+    suspend fun getTests(): List<Test>
 }
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class NetworkModule {
+object NetworkModule {
 
-    @Binds
-    @Singleton
-    abstract fun provideApiService(): ApiService
+    @Provides
+    fun provideApiService(): ApiService {
+        return Retrofit.Builder()
+            .baseUrl("example.com")
+            .build()
+            .create(ApiService::class.java)
+    }
 }

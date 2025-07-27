@@ -7,7 +7,6 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
-import javax.inject.Singleton
 
 interface ApiRepository {
     suspend fun getPosts(): List<Post>
@@ -26,7 +25,7 @@ class NetworkApiRepository @Inject constructor(
     }
 }
 
-class FakeNetworkApiRepository() : ApiRepository {
+class FakeNetworkApiRepository @Inject constructor() : ApiRepository {
     override suspend fun getPosts(): List<Post> {
         throw Exception("Simulated Error")
     }
@@ -41,8 +40,7 @@ class FakeNetworkApiRepository() : ApiRepository {
 abstract class RepositoryModule {
 
     @Binds
-    @Singleton
     abstract fun bindRepository(
-        impl: NetworkApiRepository
+        implements: NetworkApiRepository
     ): ApiRepository
 }
