@@ -1,6 +1,7 @@
 package com.example.practicestateflows.ui.theme.mainscreen
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
@@ -13,7 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.practicestateflows.data.FakeNetworkApiRepository
 
 @Composable
-fun MainScreen (viewModel: MainScreenViewModel) {
+fun MainScreen (
+    modifier: Modifier,
+    viewModel: MainScreenViewModel) {
 
     val uiStatePosts by viewModel.uiStatePost.collectAsState()
     val uiStateTest = viewModel.uiStateTest.collectAsState()
@@ -59,6 +62,7 @@ fun MainScreen (viewModel: MainScreenViewModel) {
 @Composable
 fun PreviewMainScreen() {
     MainScreen(
+        modifier = Modifier.fillMaxSize(),
         viewModel = MainScreenViewModel(
             repository = FakeNetworkApiRepository()))
 }
