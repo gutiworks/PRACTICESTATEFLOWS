@@ -41,6 +41,6 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindRepository(
-        implements: NetworkApiRepository
+        implements: FakeNetworkApiRepository
     ): ApiRepository
 }

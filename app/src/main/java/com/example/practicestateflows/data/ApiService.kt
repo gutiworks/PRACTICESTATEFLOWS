@@ -24,7 +24,7 @@ object NetworkModule {
     @Provides
     fun provideApiService(): ApiService {
         return Retrofit.Builder()
-            .baseUrl("example.com")
+            .baseUrl("")
             .build()
             .create(ApiService::class.java)
     }
