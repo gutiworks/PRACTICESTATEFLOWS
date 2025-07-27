@@ -2,3 +2,4 @@
 
 - Hilt
 - StateFlow
+- Retrofit
